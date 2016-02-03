@@ -1,0 +1,173 @@
+﻿
+@using musicBox.Models;
+<script>
+$(document).ready(function () {
+    $('.fancybox').fancybox({
+        
+            });
+});
+</script>
+
+<!--category-->
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/simple-sidebar.css" rel="stylesheet" />
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper" style="margin-top:10px; background-color:whitesmoke; color:orangered;">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="#"> Categories </a>
+            </li>
+
+            @foreach (Category s in ViewBag.Cat)
+            {
+            <li role="presentation">
+                <a href="/Music/Category?s=@s.Category1">@s.Category1</a>
+            </li>
+            }
+            <li><a href="#">Classical</a></li>
+            <li><a href="#">Country</a></li>
+            <li><a href="#">Ambient</a></li>
+            <li><a href="#">Electronic</a></li>
+            <li><a href="#">Indie</a></li>
+            <li><a href="#">Disco</a></li>
+            <li><a href="#">Metal</a></li>
+            <li><a href="#">Techno</a></li>
+            <li><a href="#">Triphop</a></li>
+            <li><a href="#">Desi</a></li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper" style="margin-top:40px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>You're welcome on the board.</h1>
+                    <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Explore Songs Categories</a>
+                    <hr />
+
+                    <!--Songs Favourites-->
+                    <div class="col-lg-6" style="padding-top:5em;" id="search">
+                        <h1>Top Songs</h1>
+                        <div class="row" style="padding-top:4em;">
+                            @foreach (Played s in Model)
+                            {
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="thumbnail" style="max-width:200px;max-height:250px;">
+                                            <a href="@Url.Content(s.Song.image)" class="fancybox"><img src="@Url.Content(s.Song.image)"></a>
+                                        </div>
+                                        <label for="song" class="control-label"> @s.Song.Name</label>
+                                        <div style="padding-top:1em">
+                                            <audio controls="controls" id="@s.Song.Name" style="width:200px" onplay="EvalSound(@s.SongID)">
+                                                <source src="@Url.Content(s.Song.path)" type="audio/mpeg">
+                                            </audio>
+                                        </div>
+                                    </div>
+
+                                    <div style="width:200px; height:auto;display:flexbox;background-color:rgba(129, 77, 29, 0.35)">
+                                        @foreach (Comment c in s.Song.Comments)
+                                        {
+                                            <p style="padding-left:2em;font-weight:bold" id="com">@c.User.Name : @c.Comment1 </p>
+
+                                        }
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+
+
+                    <script>
+
+                        function EvalSound(x) {
+                            $.post("/Music/SavePlayed?id="+x,function(data){
+
+                            });
+                        }
+                    </script>
+
+                    <script>
+                        function check()
+                        {
+
+                        }
+                        $("input[data-autocomplete-source]").each(function () {
+                            var target = $(this);
+                            target.autocomplete({ source: target.attr("data-autocomplete-source") });
+                        });
+                    </script>
+
+
+
+                    @{
+                        try
+                        {
+
+                            string s = TempData["message"].ToString();
+                            if (!s.Equals(null))
+                            {
+                                if (s.Equals("Account Created Successfully :) "))
+                                {
+                                    <div id="me" class="alert alert-success alert-dismissible" role="alert" style="font-size:20px;float:right;padding-top:4em">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>@s</strong>
+                                    </div>
+                                }
+                                else if (s.Equals(" Account could not be created "))
+                                {
+                                    <div id="me" class="alert alert-danger alert-dismissible" role="alert" style="font-size:20px;float:right;padding-top:4em">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>@s</strong>
+                                    </div>
+                                }
+                                else if (s.Equals("User Does Not Exist"))
+                                {
+                                    <div id="me" class="alert alert-danger alert-dismissible" role="alert" style="font-size:20px;float:right;padding-top:4em">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>@s</strong>
+                                    </div>
+                                }
+                                else if (s.Equals("Account Created Successfully :) you entered wrong file Name so default pic is used"))
+                                {
+                                    <div id="me" class="alert alert-danger alert-dismissible" role="alert" style="font-size:20px;float:right;padding-top:4em;position:fixed">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>@s</strong>
+                                    </div>
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        { }
+                    }
+
+                    <!--Songs favourites-->
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<!-- jQuery -->
+<script src="~/Scripts/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="~/Scripts/bootstrap.min.js"></script>
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+
+<!--category-->
+
+
+
+        
+        
+   

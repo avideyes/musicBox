@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "SavePlay";
+    Layout = "~/Views/Shared/loggedIn.cshtml";
+}
+@using musicBox.Models;
+<div class="container" style="padding-top:5em; padding-left:12em;">
+    <h1>Create PlayList</h1>
+    
+    @{
+        
+        if (ViewBag.count==0)
+        {
+        
+        <div class="container">
+            <h2>you don't have any playList. Try your first One</h2>
+            <form class="form-horizontal" method="post" action="/User/CreatePlayList?id=@ViewBag.songId">
+                <input type="hidden" value="@ViewBag.loggedIn.Id" name="UserId">
+                <input type="hidden" value="1" name="Count">
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">Name</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" name="Name" placeholder="anything" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary" style="font-family:'Comic Sans MS'">Create PlayList</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    }
+    else
+    {
+        
+    <div class="col-lg-12">
+        <h3>PLAYLISTS</h3>
+        <div class="panel-body">
+            <table class="table table-default">
+                <thead>
+                    <tr>
+                        <th>NAME </th>
+                        <th> # of Songs</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (PlayList s in Model)
+                    {
+                        <tr>
+                            <td>@s.Name</td>
+                            <td>@s.Count</td>
+                            <td><a href="/User/AddSongToPlayList?id=@s.id&&sid=@ViewBag.songId" class="btn btn-info">Add Song</a><button onclick="showDialog(@s.id)" class="btn btn-danger">Delete</button></td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+            <button onclick="showStatus(@ViewBag.songId)" class="btn btn-warning">Create new PlayList</button>
+        </div>
+
+    </div>           
+    }
+    }
+</div>
+<script>
+ function showDialog(x)
+{
+    var s=confirm("Do you really want to delete this PlayList ? ");
+    if(s==true) 
+    {
+        window.location.assign("/User/DeletePlayList?id="+x);
+
+    }
+    else
+     ;
+ }
+
+ function showStatus(x)
+ {
+     var s=prompt("Enter new PlayList Name: ");
+     
+     if(s!=null)
+     {
+         window.location.assign("/User/createNewPlayList?sid="+x+"&&name="+s);
+     }
+     else
+         ;
+ }
+</script>

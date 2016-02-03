@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "profileInfo";
+    Layout = "~/Views/Shared/loggedIn.cshtml";
+}
+@using musicBox.Models
+<script>
+    $(document).ready(function () {
+        $('.fancybox').fancybox({
+
+        });
+    });
+</script>
+
+<div class="container" style="padding-top:10em; padding-left:18em">
+    <h1>Profile Details</h1>
+    <br>
+    <div style="float:left">
+        <a href="@Url.Content(ViewBag.loggedIn.image)" class="fancybox"><img src="@Url.Content(Model.image)" style="width:200px;height:200px" /></a>
+</div>
+    <pre style="font-family:'Comic Sans MS'; font-size:20px; height:auto;display:flexbox;background-color:rgba(129, 77, 29, 0.35)" >
+    Your Id:          @Model.Id
+    Your Name:        @Model.Name
+    Your Email:       @Model.Email
+    Your Contact #:   @Model.Contact
+                We are felling priviliged to have you with us. :)
+</pre>
+    <a href="/User/changeDetails" class="btn-info">Change Details</a>
+</div>
+<br><br>
+ 
+
+
+<script>
+    function toggle_visibility(id) {
+        var e = document.getElementById(id);
+        var s = document.getElementById("show");
+        if (e.style.display == 'block' || e.style.display == '') {
+            e.style.display = 'none';
+        }
+        else {
+            e.style.display = 'block';
+        }
+
+    }
+</script>
+

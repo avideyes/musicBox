@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-2.1.3.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap-tabdrop.js"></script>
+    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/jQuery-2.1.4.min.js"></script>
+    <link href="~/Content/jquery.fancybox-buttons.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.fancybox.js"></script>
+    <link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.fancybox.pack.js"></script>
+    <script src="~/Scripts/jquery.fancybox-buttons.js"></script>
+
+   
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+    
+    @Scripts.Render("~/bundles/modernizr")
+    @using musicBox.Models;
+    
+
+    
+</head>
+<body>
+
+
+    <!--Header-->
+    <nav class="navbar navbar navbar-fixed-top" role="navigation" style="background-color:orangered;">
+        <div class="container">
+            <div class="navbar-header">
+                <div class="navbar-brand">
+                    <a href="#" style="color:white; ">BeatsBlend </a>
+                </div>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#you">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="you">
+                <form class="navbar-form navbar-left" role="search" method="post" action="/Music/search">
+                    <div class="form-group">
+                        <input class="form-control" name="v" type="text" data-autocomplete-source="@Url.Action("QuickSearch","Music")" placeholder="Search Songs" style="width:380px" />
+                    </div>
+                    <button type="submit" class="btn btn-info">Search</button>
+                </form>
+                <ul class="nav nav-pills pull-right" style="margin-top:7px;">
+                    <li><a href="/Music/topsongs">Top Songs</a></li>
+                    <li><a href="/User/UploadSong">Upload</a></li>
+                    <li><a href="/User/PlayLists">Playlists</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@ViewBag.loggedIn.Name <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/User/profileInfo">Profile info</a></li>
+                            <li><a href="/User/aboutUs">About</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/User/signOut">SignOut</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+    <!--Header-->
+
+    
+    <nav class="navbar navbar navbar-fixed-top" role="navigation" style="background-color:orangered;">
+        <div class="container">
+            <div class="navbar-header">
+                <div class="navbar-brand">
+                    <a href="/Music" style="color:white; ">BeatsBlend </a>
+                </div>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#you">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="you">
+                <form class="navbar-form navbar-left" role="search" method="post" action="/User/search">
+                    <div class="form-group">
+                        <input class="form-control" name="v" type="text" data-autocomplete-source="@Url.Action("QuickSearch","Music")" placeholder="Search Songs" style="width:380px" />
+                    </div>
+                    <button type="submit" class="btn btn-info">Search</button>
+                </form>
+                <ul class="nav nav-pills pull-right" style="margin-top:7px;">
+                    <li><a href="/User/UploadSong" style="color:white;">Upload Song</a></li>
+                    <li><a href="/User/PlayLists" style="color:white;">PlayLists</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color:white;">@ViewBag.loggedIn.Name <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/User/profileInfo">Profile</a></li>
+                            <li><a href="/User/aboutUs">About</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/User/signOut">Sign Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav> <!--Header-->
+    
+    <ul class="nav nav-pills nav-stacked col-sm-2" style="padding-top:0em;position:fixed; margin-top:30px;" >
+        <li role="presentation">
+            <div class="row" style="padding-top:3em">
+                <div class="col-sm-10 ">
+                    <div class="thumbnail" style="max-width:100px;max-height:150px;">
+                        <a href="@Url.Content(ViewBag.loggedIn.image)" class="fancybox"><img src="@Url.Content(ViewBag.loggedIn.image)"></a>
+                    </div>
+                    <p style="padding-left:1em"><i class="fa fa-circle text-success"></i> @ViewBag.loggedIn.Name</p>
+
+                </div>
+            </div>
+        </li>
+
+        @foreach (Category s in ViewBag.Cat)
+        {
+            <li role="presentation" class="active"><a href="/User/Index?s=@s.Category1">@s.Category1</a></li>
+        }
+        
+    </ul>
+
+
+    <script>
+    $("input[data-autocomplete-source]").each(function () {
+        var target = $(this);
+        target.autocomplete({ source: target.attr("data-autocomplete-source") });
+    });
+    </script>
+
+
+
+    @RenderBody()
+
+
+
+    <!--Footer-->
+
+    <div style="margin-top:60px;"></div>
+
+    <footer class="navbar-default navbar-fixed-bottom" style="color:white; background-color:orangered; text-align:center;">
+        <div class="container container-fluid">
+            <h5>BeatsBlend - A Music Hub <a href="/Music/Index"> -- Final Year Project -- </a>. All rights reserved 2016.</h5>
+        </div>
+    </footer>
+    <!--Footer-->
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+
+
+

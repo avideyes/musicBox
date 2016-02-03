@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "signUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model musicBox.Models.User
+
+
+<div class="row" style="margin-top:100px;">
+    <div class="container col-md-offset-3 col-md-6">
+        @using (Html.BeginForm("createAccount", "Music", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <fieldset>
+                <legend style="text-align:center;">Get register at BeatsBlend</legend>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name)
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Name, new { @class = "col-lg-3 form-control", placeholder = "username ..." })
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password)
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Password, new { @class = "col-lg-3 form-control", placeholder = "password...", type = "password" })
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email)
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Email, new { @class = "col-lg-3 form-control", placeholder = "youremail@beatsblend.com", type = "email" })
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Contact)
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Contact, new { @class = "col-lg-3 form-control", placeholder = "+923360000000", type = "number" })
+                    @Html.ValidationMessageFor(model => model.Contact)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.image)
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.image, new { @class = "col-lg-3 form-control", type = "file" })
+                    @Html.ValidationMessageFor(model => model.image)
+                </div>
+                <div class="col-sm-10 ">
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </div>
+            </fieldset>
+        }
+
+    </div>
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+</div>

@@ -1,0 +1,89 @@
+﻿
+@using musicBox.Models;
+<script>
+    $(document).ready(function () {
+        $('.fancybox').fancybox({
+
+        });
+    });
+</script>
+
+
+
+
+    <ul class="nav nav-pills nav-stacked col-sm-2" style="padding-top:3em;">
+        @foreach (Category s in ViewBag.Cat)
+        {
+            <li role="presentation" class="active"><a href="/Music/Category?s=@s.Category1">@s.Category1</a></li>
+        }
+    </ul>
+
+@if (ViewBag.count == 0)
+{
+    <div class="col-lg-6" style="padding-top:5em;" id="search">
+        <h1 style="font-family:'Comic Sans MS'">No Song Found</h1>
+    </div>
+}
+else
+{ 
+    <div class="col-lg-6" style="padding-top:5em;" id="search">
+        <h1 style="font-family:'Comic Sans MS'">Search Result</h1>
+        @foreach (Song s in Model)
+        {
+            <div class="col-md-6">
+            <div class="form-group">
+            <div class="thumbnail" style="max-width:200px;max-height:250px;">
+                <a href="@Url.Content(s.image)" class="fancybox"><img src="@Url.Content(s.image)" /> @s.Name</a>
+            </div>
+    <div style="padding-top:1em">
+        <audio controls="controls" id="@s.Name" style="width:200px" onplay="EvalSound(@s.Id)">
+            <source src="@Url.Content(s.path)" type="audio/mpeg">
+        </audio>
+    </div>
+            </div>
+
+            <div style="width:75%; height:auto;display:flexbox;background-color:rgba(129, 77, 29, 0.35)">
+                @foreach (Comment c in s.Comments)
+                {
+                    <p style="padding-left:2em;font-weight:bold" id="com">@c.User.Name : @c.Comment1 </p>
+
+                }
+            </div>
+            </div>
+        }
+
+    </div>
+}
+    <script>
+
+        function EvalSound(x) {
+            $.post("/Music/SavePlayed?id=" + x, function (data) {
+
+            });
+        }
+    </script>
+
+    <script>
+        function search() {
+            var s = $('#content').val();
+            if (s != null) {
+                $('#search').empty();
+                $('#search').post("/Music/go?value=" + s, function (data) {
+
+                    if (data) {
+                        $('#search').empty();
+                        $('#search').append(data);
+                    }
+
+                });
+
+            }
+        }
+        function check() {
+
+        }
+        $("input[data-autocomplete-source]").each(function () {
+            var target = $(this);
+            target.autocomplete({ source: target.attr("data-autocomplete-source") });
+        });
+    </script>

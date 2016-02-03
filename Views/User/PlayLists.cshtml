@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "PlayLists";
+    Layout = "~/Views/Shared/loggedIn.cshtml";
+}
+@using musicBox.Models;
+<div class="container" style="padding-top:5em; padding-left:12em;">
+    <h3>PLAYLISTS</h3>
+    <div class="panel-body">
+        @{
+            if (ViewBag.count == 0)
+            {
+                   <h1>Its Empty in here</h1>
+            }
+            else
+            {
+               <div class="wrapper">
+                   @foreach (PlayList s in Model)
+                   {
+                       <div class="panel-body">
+                           <table class="table table-default">
+                               <thead>
+                                   <tr>
+                                       <th>NAME </th>
+                                       <th> # of Songs</th>
+                                       <th>Actions</th>
+                                   </tr>
+                               </thead>
+                               <tr>
+                                   <td>@s.Name</td>
+                                   <td>@s.Count</td>
+                                   <td>
+                                       <button onclick="showDialog(@s.id)" class="btn btn-danger">Delete</button>
+                                       <button onclick="toggle_visibility('@s.id')" class="btn btn-info">Listen to Songs</button>
+                                   </td>
+                               </tr>
+                           </table>
+                        </div>                     
+                       <div id="@s.id" style="display:none">
+                           @foreach(PlayList_Songs a in s.PlayList_Songs)
+                           {
+                               <div style="padding-top:1em">
+                                   <p>@a.Song.Name</p>
+                                    <audio controls="controls" style="width:561px">
+                                        <source src="@Url.Content(a.Song.path)" type="audio/mpeg">
+                                    </audio>
+                                </div>
+                           }
+                       </div>
+                                          
+
+                   
+                   }    
+               </div>
+            }
+         }
+    </div>
+
+</div>
+    
+<script>
+    function toggle_visibility(id) {
+        var e = document.getElementById(id);
+        var s = document.getElementById("show");
+        if (e.style.display == 'block' || e.style.display == '') {
+            e.style.display = 'none';
+            s.style.display = 'block';
+        }
+        else {
+            e.style.display = 'block';
+            s.style.display = 'none';
+        }
+        
+    }
+
+    function showDialog(x)
+    {
+        var s=confirm("Do you really want to delete this PlayList ? ");
+        if(s==true) 
+        {
+            window.location.assign("/User/DeletePlayList?id="+x);
+
+        }
+        else
+            ;
+    }
+</script>

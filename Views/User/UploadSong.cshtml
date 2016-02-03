@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "UploadSong";
+    Layout = "~/Views/Shared/loggedIn.cshtml";
+}
+
+@using musicBox.Models;
+
+<div class="container" style="padding-top:5em; padding-left:12em">
+    <h1>Upload Song</h1>
+    <form class="form-horizontal" method="post" action="/User/storeSong" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="Name" class="col-lg-3 control-label">Name of Song</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" name="Name" required>
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="Category" class="col-lg-3 control-label">Category for song</label>
+            <div class="col-sm-5">
+                <select name="Category" font-size:20px">
+                    <option>select Item</option>
+                    @foreach (Category s in ViewBag.Cat)
+                    {
+                        <option>@s.Category1</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="Singer" class="col-lg-3 control-label">Singer of Song</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" name="Singer" required>
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="path" class="col-lg-3 control-label">Choose Song File</label>
+            <div class="col-sm-5">
+                <input type="file" name="path" style="width:250px;height:25px" required>
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="image" class="col-lg-3 control-label">Choose Song Image</label>
+            <div class="col-sm-5">
+                <input type="file" name="image" style="width:250px;height:25px" required>
+            </div>
+        </div>
+        <br>
+        <div class="form-group" style="padding-left:10em">
+            <div class="col-sm-10 ">
+                <button type="submit" class="btn btn-primary" >UPLOAD</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+

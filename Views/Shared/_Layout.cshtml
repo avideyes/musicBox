@@ -1,0 +1,93 @@
+﻿@using musicBox.Models;
+<script>
+    $(document).ready(function () {
+        $('.fancybox').fancybox({
+
+        });
+    });
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-2.1.3.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap-tabdrop.js"></script>
+    <script src="~/Scripts/jQuery-2.1.4.min.js"></script>
+    <link href="~/Content/jquery.fancybox-buttons.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.fancybox.js"></script>
+    <link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.fancybox.pack.js"></script>
+    <script src="~/Scripts/jquery.fancybox-buttons.js"></script>
+    <link href="~/Content/glyphicons-halflings-regular.woff2" rel="stylesheet"/>
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+
+
+    <title>@ViewBag.Title</title>
+    @Scripts.Render("~/bundles/modernizr")
+
+  
+</head>
+<body>
+
+    <!--Header-->      
+    <nav class="navbar navbar navbar-fixed-top" role="navigation" style="background-color:orangered;">
+        <div class="container">
+            <div class="navbar-header">
+                <div class="navbar-brand">
+                    <a href="/Music" style="color:white; ">BeatsBlend </a>
+                </div>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#you">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="you">              
+                <form class="navbar-form navbar-left" role="search" method="post" action="/Music/search">
+                    <div class="form-group">
+                        <input class="form-control" name="v" type="text" data-autocomplete-source="@Url.Action("QuickSearch","Music")" placeholder="Search Songs" style="width:380px" />
+                    </div>
+                    <button type="submit" class="btn btn-info">Search</button>
+                </form>
+                <ul class="nav nav-pills pull-right" style="margin-top:7px;">
+                    <li><a href="/Music/topsongs" style="color:white;">Top Songs</a></li>
+                    <li><a href="/Music/aboutUs" style="color:white;">About</a></li>
+                    <li><a href="/Music/signUp" style="color:white;">Register</a></li>
+                    <li><a href="/Music/login" style="color:white;">Login</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </nav> 
+    <!--Header-->
+    
+      @RenderBody()
+
+
+
+
+
+    <!--Footer-->
+   
+    <div style="margin-top:60px;"></div>
+    
+    <footer class="navbar-default navbar-fixed-bottom" style="color:white; background-color:orangered; text-align:center;">
+        <div class="container container-fluid">
+            <h5>BeatsBlend - A Music Hub <a href="/Music/Index"> -- Final Year Project -- </a>. All rights reserved 2016.</h5>
+        </div>
+    </footer>
+    <!--Footer-->
+
+
+      @Scripts.Render("~/bundles/jquery")
+      @RenderSection("scripts", required: false)
+
+</body>
+</html>

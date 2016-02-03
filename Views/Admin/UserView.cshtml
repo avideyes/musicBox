@@ -1,0 +1,133 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using musicBox.Models;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UserView</title>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#you">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-nav" href="/Admin"><img src="~/Content/themes/base/images/log.gif" class="img-responsive"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="you">
+                <ul class="nav nav-pills navbar-left">
+                    <li><a href="/Admin/UserView">Collection</a></li>
+                </ul>
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Search Songs" style="width:380px">
+                    </div>
+                    <button type="submit" class="btn btn-info" style="font-family:'Comic Sans MS'">Submit</button>
+                </form>
+                <ul class="nav nav-pills pull-right">
+                    <li>ADMIN</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@ViewBag.loggedIn.Name <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/Admin/EditProfile">Profile info</a></li>
+                            <li><a href="/Admin">Admin View </a></li>
+                            <li class="divider"></li>
+                            <li><a href="/Admin/signOut">SignOut</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav> <!--Header-->
+
+    <ul class="nav nav-pills nav-stacked col-sm-2" style="padding-top:0em;position:fixed">
+        <li role="presentation">
+            <div class="row" style="padding-top:3em">
+                <div class="col-sm-10 ">
+                    <div class="thumbnail" style="max-width:100px;max-height:150px;">
+                        <a href="@Url.Content(ViewBag.loggedIn.image)" class="fancybox"><img src="@Url.Content(ViewBag.loggedIn.image)"></a>
+                    </div>
+                    <p style="padding-left:1em"><i class="fa fa-circle text-success"></i> @ViewBag.loggedIn.Name</p>
+
+                </div>
+            </div>
+        </li>
+        @foreach (Category s in ViewBag.Cat)
+        {
+            <li role="presentation" class="active"><a href="/Admin/UserView?s=@s.Category1">@s.Category1</a></li>
+        }
+     </ul>
+
+    <div class="wrapper" style="padding-left:10em;padding-right:26em;">
+        <div class="col-lg-11" style="padding-top:5em;padding-left:6em;padding-right:3em;">
+            @{int i = 1;}
+            @foreach (Song s in Model)
+            {
+
+                <div class="form-group">
+
+                    <label for="song" class="control-label">
+                        <a href="@Url.Content(s.image)" class="fancybox"><img src="@Url.Content(s.image)" /> @s.Name</a>
+                    </label>
+
+                    <div style="padding-top:1em">
+                        <audio controls="controls" style="width:561px">
+                            <source src="@Url.Content(s.path)" type="audio/mpeg">
+                        </audio>
+                    </div>
+                </div>
+                <div style="width:100%; height:auto;display:flexbox;background-color:rgba(129, 77, 29, 0.35)">
+
+                    <div id="@s.Id">
+                        @foreach (Comment c in s.Comments)
+                        {
+                            <p style="padding-top:1em; padding-left:2em;font-weight:bold" id="com">
+                                @c.User.Name : @c.Comment1<a href="/Admin/DeletComment?id=@c.Id" class="glyphicon glyphicon-trash pull-right" style="padding-right:2em"></a>
+                            </p>
+
+                        }
+                    </div>
+                    <form class="navbar navbar-form" method="get">
+                        <input type="hidden" value="@ViewBag.loggedIn.Id" name="UserId" id="UserId">
+                        <input type="hidden" value="@s.Id" name="SongId" id="SongId">
+                        <textarea name="Comment1" id="@i" style="width:100%; min-height:5px"></textarea>
+                        <input type="button" onclick="saveComment(@s.Id,@i)" class="btn-xs btn-info" value="Post Comment" style="float:right">
+                    </form>
+                </div>
+
+                        i = i + 1;
+            }
+
+            <script>
+        function saveComment(x,y) {
+
+            var comment=$('#'+y).val();
+
+            if (comment != null) {
+                var userId = $('#UserId').val();
+                $.post("/Admin/InComment?songid=" + x + "&&userid=" + userId + "&&comment=" + comment, function (data) {
+                    if (data) {
+                        $('#' + x).empty();
+                        $('#' + x).append(data);
+                        $('#' + y).val("");
+                    }
+                }
+                );
+            }
+        }
+            </script>
+
+
+
+        </div>
+    </div>
+</body>
+</html>

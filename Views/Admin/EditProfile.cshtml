@@ -1,0 +1,225 @@
+﻿@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/AdminLay.cshtml";
+}
+
+@model musicBox.Models.User
+<style>
+    .control-label {
+        font-family: 'Comic Sans MS';
+        font-size: 20px;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('.fancybox').fancybox({
+
+        });
+    });
+</script>
+<div class="wrapper">
+
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="/Admin" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>A</b>AA</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Admin</b>AGHA</span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- Messages: style can be found in dropdown.less-->
+                    <li class="dropdown messages-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope"></i>
+                            <span class="label label-success">1</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have 1 messages</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu">
+                                    <li>
+                                        <a href="#">
+                                            <div class="pull-left">
+                                                <img src="~/Content/themes/base/images/user3-128x128.jpg" class="img-circle" alt="user image" />
+                                            </div>
+                                            <h4>
+                                                First Girlfriend
+                                                <small><i class="fa fa-clock-o"></i> 2 hours</small>
+                                            </h4>
+                                            <p>Why not have a Date?</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="#">See All Messages</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Notifications: style can be found in dropdown.less -->
+                    <li class="dropdown notifications-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning">1</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have 1 notifications</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="#">View all</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="@Url.Content(ViewBag.admin.image)" class="user-image" alt="User Image" />
+                            <span class="hidden-xs">@ViewBag.admin.Name</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img src="@Url.Content(ViewBag.admin.image)" class="img-circle" alt="User Image" />
+                                <p>
+                                    <b>@ViewBag.admin.Name</b> - @ViewBag.admin.Email
+                                    <small>Member since Birth of site</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="/Admin/EditProfile" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="/Admin/signOut" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+        </nav>
+    </header>
+
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="@Url.Content(ViewBag.admin.image)" class="img-circle" alt="User Image" />
+                </div>
+                <div class="pull-left info">
+                    <p>@ViewBag.admin.Name</p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+            <!-- search form -->
+            <form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search " />
+                    <span class="input-group-btn">
+                        <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </form>
+            <!-- /.search form -->
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+
+            <ul class="sidebar-menu">
+                <li class="header">MAIN NAVIGATION</li>
+                <li class="active treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Songs</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/Admin/Upload"><i class="fa fa-circle-o"></i>Upload Song</a></li>
+                        <li><a href="/Admin/AllSongs"><i class="fa fa-circle-o"></i>All Songs</a></li>
+                    </ul>
+                </li>
+
+                <li class="active">
+                    <a href="/Admin/AllUsers">
+                        <i class="fa fa-users"></i> <span>All Users</span>
+                        <small class="label pull-right bg-red">3</small>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="/Admin/anotherAdmin">
+                        <i class="fa fa-users"></i> <span>Add Admin</span>
+                        <small class="fa-users pull-right bg-red">3</small>
+                    </a>
+                </li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                All Users
+                <small>Control panel</small>
+            </h1>
+        </section>
+        <br>
+        <div class="row" style="padding-left:8em">
+            <h2>@Model.Name</h2>
+            <div style="float:left">
+                <a href="@Url.Content(Model.image)" class="fancybox"><img src="@Url.Content(Model.image)" style="width:200px;height:200px" /></a>
+            </div>
+            <div>
+                <pre style="font-family:'Comic Sans MS'; font-size:20px; height:auto;display:flexbox;background-color:rgba(129, 77, 29, 0.35)">
+            @Model.Id 
+            @Model.Contact
+            @Model.Email
+               
+        </pre>
+            </div>
+
+            <div class="col-lg-5">
+                <a href="/Admin/Change" class="btn btn-info btn-lg" >Change Profile</a>
+            </div>
+        </div>
+
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+        <!-- Control Sidebar -->
+        <div class='control-sidebar-bg'></div>
+    </div><!-- ./wrapper -->
+</div>
+
+
+
+
+
+
+

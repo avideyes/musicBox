@@ -1,0 +1,152 @@
+﻿@{
+    Layout = "~/Views/Shared/loggedIn.cshtml";
+}
+@using musicBox.Models;
+<link href="~/Content/rating.css" rel="stylesheet" />
+<script src="~/Scripts/rating.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.fancybox').fancybox({
+            helpers: {
+                media: {}
+            }
+        });
+    });
+
+</script>
+
+
+
+<div class="wrapper" style="padding-left:10em;padding-right:26em;">
+<div class="col-lg-11" style="padding-top:5em;padding-left:6em;padding-right:3em;">
+   @{int i = 1;}
+     @foreach (Song s in Model)
+    {
+        
+    <div class="form-group">
+       
+        <div class="thumbnail" style="max-width:400px;max-height:250px;">
+            <a href="@Url.Content(s.image)" class="fancybox"><img src="@Url.Content(s.image)"></a>
+        </div>
+            
+            <div style="padding-top:1em">
+                <audio controls="controls" style="width:561px">
+                    <source src="@Url.Content(s.path)" type="audio/mpeg">
+                </audio>
+            </div>
+    </div>
+    <div style="width:100%; height:auto;display:flexbox;background-color:rgba(129, 77, 29, 0.35)">
+        <a href="/User/SavePlay?id=@s.Id" class="btn-xs btn-success" aria-label="Aligh Right"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Add to PlayList</a>
+        <a href="/User/Download?id=@s.Id" class="btn-xs btn-info"><span class="glyphicon glyphicon-download" aria-hidden="true"></span>Download</a>
+
+        <div id="@s.Id" >
+            @foreach (Comment c in s.Comments)
+            {
+                <p style="padding-left:2em;font-weight:bold" id="com">@c.User.Name : @c.Comment1 </p>
+
+            }
+        </div>
+        <form class="navbar navbar-form" method="get">
+            <input type="hidden" value="@ViewBag.loggedIn.Id" name="UserId" id="UserId">
+            <input type="hidden" value="@s.Id" name="SongId" id="SongId">
+            <textarea name="Comment1" id="@i" style="width:100%; min-height:5px" ></textarea>
+            <input type="button" onclick="saveComment(@s.Id,@i)" class="btn-xs btn-info" value="Post Comment" style="float:right">
+        </form>
+    </div>
+        
+       i = i + 1;
+    }
+    
+    <script>
+        function saveComment(x,y) {
+            
+            var comment=$('#'+y).val();
+            
+            if (comment != null) {
+                var userId = $('#UserId').val();
+                $.post("/User/AddComment?songid=" + x + "&&userid=" + userId + "&&comment=" + comment, function (data) {
+                    if (data) {
+                        $('#' + x).empty();
+                        $('#' + x).append(data);
+                        $('#' + y).val("");
+                    }
+                }
+                );
+            }
+        }
+    </script>
+
+
+
+</div>
+</div>
+
+@{
+    try
+    {
+
+        string s = TempData["message"].ToString();
+        if (!s.Equals(null))
+        {
+            if (s.Equals("PlayList Saved "))
+            {
+                <div id="me" class="alert alert-success alert-dismissible" role="alert" style="font-family:'Comic Sans MS';font-size:20px;float:right;padding-top:4em">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@s</strong>
+                </div>
+            }
+            else if (s.Equals("Song Already Exists "))
+            {
+                <div id="me" class="alert alert-danger alert-dismissible" role="alert" style="font-family:'Comic Sans MS';font-size:20px;float:right;padding-top:4em">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@s</strong>
+                </div>
+            }
+            else if (s.Equals("PlayList Updated"))
+            {
+                <div id="me" class="alert alert-success alert-dismissible" role="alert" style="font-family:'Comic Sans MS';font-size:20px;float:right;padding-top:4em">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@s</strong>
+                </div>
+            }
+            else if(s.Equals("Song Uploaded"))
+            {
+                <div id="me" class="alert alert-success alert-dismissible" role="alert" style="font-family:'Comic Sans MS';font-size:20px;float:right;padding-top:4em">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@s</strong>
+                </div>
+            }
+            else if (s.Equals("Couldn't Upload"))
+            {
+                <div id="me" class="alert alert-danger alert-dismissible" role="alert" style="font-family:'Comic Sans MS';font-size:20px;float:right;padding-top:4em">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@s</strong>
+                </div>
+            }
+            else if (s.Equals("Wrong Files Couldn't Upload"))
+            {
+                <div id="me" class="alert alert-danger alert-dismissible" role="alert" style="font-family:'Comic Sans MS';font-size:20px;float:right;padding-top:4em">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@s</strong>
+                </div>
+            }
+            else if (s.Equals("PlayList Deleted"))
+            {
+                <div id="me" class="alert alert-danger alert-dismissible" role="alert" style="font-family:'Comic Sans MS';font-size:20px;float:right;padding-top:4em">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@s</strong>
+                </div>
+            }
+            else if (s.Equals("Couldn't save playlist "))
+            {
+                <div id="me" class="alert alert-danger alert-dismissible" role="alert" style="font-family:'Comic Sans MS';font-size:20px;float:right;padding-top:4em">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@s</strong>
+                </div>
+            }
+        }
+    }
+    catch (Exception)
+    { }
+}
+
